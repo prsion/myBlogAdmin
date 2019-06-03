@@ -1,0 +1,21 @@
+.wrapper {
+	max-width: 1200px;
+	position: relative;
+}
+.left {
+	float: left;
+	width: 30%;
+	font-size: 2rem;
+}
+.right {
+	float: right;
+	width: 70%;
+	font-size: 1.35rem;
+}
+.sum {
+	width: 500px;
+	height: 300px;
+	box-sizing: border-box;
+}
+
+
