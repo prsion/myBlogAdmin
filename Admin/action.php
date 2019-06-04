@@ -3,7 +3,7 @@ session_start();
 require_once '../Dbh.php';
 $dbh=new Dbh;
 $id=$_GET['id'];
-$i=intval($id);
+$id=intval($id);
 
 echo "id ==".$id.'<br>';
 
@@ -14,11 +14,11 @@ $content;
 $publicationDate;
 
 
-		$sql= 'SELECT * FROM articles WHERE id='.$i;
+		$sql= 'SELECT * FROM articles WHERE id='.$id;
 		$stmt=$dbh->query($sql);
 		//echo "I=".$i.'<br>';
 		foreach ($stmt as $key=>$val){
-			
+			$id=$val['id'];
 			$title=$val['title'];
 			$summary=$val['summary'];
 			$content=$val['content'];
@@ -29,16 +29,42 @@ $publicationDate;
 
 
 <?php 
-
+/**
+ * Delete record
+ */
 if(isset($_POST['delete'])) {
-	echo 'button was pressed=article is deleted';
-	$sql= 'DELETE FROM articles WHERE id ='.$i;
+	echo 'Delete was pressed=article is deleted'.'<br>';
+	$sql= 'DELETE FROM articles WHERE id ='.$id;
 	$stmt=$dbh->query($sql);
 	//$i=$i+1;
 
 }
+else {echo 'Delete not pressed';
+}
+
+ /**
+	* Editing records and update
+	*/
+
+
+if(isset($_POST['update'])) {
+	echo '<br>'.'Data was saved';
+
+$publicationDate=trim($_POST['data']);
+$title=trim($_POST['title']);
+$summary=trim($_POST['summary']);
+$content=trim($_POST['content']);
+
+$sql ='UPDATE articles SET publicationDate=:publicationDate, title=:title, summary=:summary, content=:content WHERE id=:id';
+$stmt=$dbh->prepare($sql);
+$stmt->execute(['publicationDate' => $publicationDate, 'title' => $title, 'summary'=> $summary, 'content' => $content, 'id'=> $id]);
+
+
+}
 else {echo 'button not pressed';
 }
+
+
 
 ?>
 
@@ -47,30 +73,30 @@ else {echo 'button not pressed';
 <h1> Hello   i`m editing page</h1>
 
 
-<form method="POST" actions="action" name="edit">
+<form method="POST" actions="action.php" >
 
-	<textarea name="data" rows="2" cols="25">
-	<?php print_r($publicationDate);	 ?>	
-	</textarea> <br><br>
+	<input name="data" value="<?php print_r($publicationDate);?>"  type="text">
 
-
-	<textarea name="title" rows="2" cols="25">
-		<?php print_r($title);	 ?>	
-	</textarea><br><br>
+	<br><br>
 
 
+	<input name="title" value="<?php print_r($title);?>"  type="text">
 
-	<textarea  name="summary" rows="2" cols="40">
-		<?php print_r($summary); ?>
-	</textarea><br><br>
+	<br><br>
 
 
-	<textarea name="content" maxlength="10000" form="content" rows="20" cols="40">
-	<?php print_r($content); ?>	
-	</textarea><br/><br/>
+
+	<input  name="summary" value="<?php print_r($summary); ?>"  type="text">
+
+	<br><br>
+
+
+	<input name="content" value="<?php print_r($content); ?>"  type="text">
+
+	<br/><br/>
 	
 		<input type="submit" name="delete" value="Delete this Post">
-
+		<input type="submit" name="update" value="Update Post">
 	</form>
 
 

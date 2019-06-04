@@ -33,7 +33,7 @@ var_dump($stmt);
 
 <h1>Add new post</h1>
 
-<form method="POST" actions="insert">
+<form method="POST" actions="insert.php">
 
 			<textarea name="data" rows="2" cols="25">
 			
