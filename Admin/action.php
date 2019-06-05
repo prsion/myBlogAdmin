@@ -16,7 +16,6 @@ $publicationDate;
 
 		$sql= 'SELECT * FROM articles WHERE id='.$id;
 		$stmt=$dbh->query($sql);
-		//echo "I=".$i.'<br>';
 		foreach ($stmt as $key=>$val){
 			$id=$val['id'];
 			$title=$val['title'];

@@ -12,9 +12,9 @@ print_r($id);
 		$taValues = array(
 			'id' => ''.$id,
 			'publicationDate' => '',
-			'title' => 'title'.$id,
-			'summary' => 'newsummary'.$id,
-			'content' => 'content'.$id,
+			'title' => 'newTitle'.$id,
+			'summary' => 'newBriefSummary'.$id,
+			'content' => 'newBasicContent'.$id,
 
 			); // array
 
@@ -22,41 +22,72 @@ print_r($id);
 		$stmt = $dbh->insert($sql, $taValues);
 	
 
+		/**
+		 * choose  all records
+		 */
+		$sql= 'SELECT * FROM articles WHERE id='.$id;
+		$stmt=$dbh->query($sql);
+		foreach ($stmt as $key=>$val){
+			$id=$val['id'];
+			$title=$val['title'];
+			$summary=$val['summary'];
+			$content=$val['content'];
+			$publicationDate=$val['publicationDate'];
+		
+		}
+
+
 var_dump($stmt);
 
 //}
 
-
-
-
 ?>
+
+<?php 
+if(isset($_POST['update'])) {
+	echo '<br>'.'Data was saved';
+
+$publicationDate=trim($_POST['data']);
+$title=trim($_POST['title']);
+$summary=trim($_POST['summary']);
+$content=trim($_POST['content']);
+
+$sql ='UPDATE articles SET publicationDate=:publicationDate, title=:title, summary=:summary, content=:content WHERE id=:id';
+$stmt=$dbh->prepare($sql);
+$stmt->execute(['publicationDate' => $publicationDate, 'title' => $title, 'summary'=> $summary, 'content' => $content, 'id'=> $id]);
+
+
+}
+else {echo 'button not pressed';
+}
+?>
+
 
 <h1>Add new post</h1>
 
-<form method="POST" actions="insert.php">
+<form method="POST" actions="insert.php" >
 
-			<textarea name="data" rows="2" cols="25">
+	<input name="data" value="<?php print_r($publicationDate);?>"  type="text">
+
+	<br><br>
+
+
+	<input name="title" value="<?php print_r($title);?>"  type="text">
+
+	<br><br>
+
+
+
+	<input  name="summary" value="<?php print_r($summary); ?>"  type="text">
+
+	<br><br>
+
+
+	<input name="content" value="<?php print_r($content); ?>"  type="text">
+
+	<br/><br/>
 			
-			</textarea> <br><br>
-
-
-			<textarea name="title" rows="2" cols="25">
-			
-			</textarea><br><br>
-
-
-
-			<textarea  name="summary" rows="2" cols="40">
-			
-			</textarea><br><br>
-
-
-			<textarea name="content" maxlength="10000" form="content" rows="20" cols="40">
-			
-			</textarea>
-			<br/> <br/>
-			<input type="submit" name="button" value="Add new post" style="cursor:pointer"> <br/>
-
+		<input type="submit" name="update" value="Add New Post">
 	</form>
 
 	<br><br>
