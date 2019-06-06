@@ -6,8 +6,8 @@ $id=$_GET['id'];
 print_r($id);
 
 /** if yes   */
-//if(isset($_POST['id']))
-//{   
+if(isset($_GET['id']))
+{
 		
 		$taValues = array(
 			'id' => ''.$id,
@@ -33,13 +33,13 @@ print_r($id);
 			$summary=$val['summary'];
 			$content=$val['content'];
 			$publicationDate=$val['publicationDate'];
-		
+
 		}
 
 
 var_dump($stmt);
 
-//}
+}
 
 ?>
 
