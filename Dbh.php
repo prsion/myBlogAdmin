@@ -1,7 +1,11 @@
 <?php
+
 class Dbh {
 
-		public function __construct(){
+  /**
+   * Dbh constructor.
+   */
+  public function __construct(){
 				$this->connect();
 		}
 
@@ -18,10 +22,13 @@ class Dbh {
 				return $this;
     }
 
-    public function closeConnection()
+
+
+  public function closeConnection()
     {
         $this->pdo = "null";
     }
+
 
 		/**
 		 *  function prepare
@@ -38,7 +45,12 @@ class Dbh {
 	}
 
 
-
+/**
+ *  function count number of records in SQL
+ *
+ * param [type] $sql
+ * return void
+ */
 		public function count($sql){
 
 			$sth=$this->pdo->prepare($sql);
@@ -55,6 +67,27 @@ class Dbh {
 
 
 
+/**
+ * function update
+ *
+ * param [type] $sql
+ * return void
+ */
+		public function update($sql){
+			$sth=$this->pdo->prepare($sql);
+			$sth->execute();
+			$result=$sth->fetchAll(PDO::FETCH_ASSOC);
+
+			if($result===false){
+					return[];
+			}
+			return $result;
+		}
+
+
+
+
+
 
 /**
  *  function insert
@@ -64,9 +97,7 @@ class Dbh {
  * return void
  */
 		public function insert($sql, $taValues){
-
-						//$sth=$this->pdo->prepare($sql);
-
+	
 			$sth=$this->pdo->prepare($sql);
 			foreach ($taValues as $k=>$v){
 
@@ -77,6 +108,23 @@ class Dbh {
 			return $sth;
 			echo 'function insert SQL ';
 		}
+
+
+  /**
+   * @param $sql
+   * @return array
+   */
+  public function queryCol($sql){
+
+    $sth=$this->pdo->prepare($sql);
+    $sth->execute();
+    $result=$sth->fetchAll(PDO::FETCH_COLUMN);
+
+    if($result===false){
+      return[];
+    }
+    return $result;
+  }
 
 
 
@@ -116,7 +164,7 @@ class Dbh {
 					$values[$field] = $source[$field];
 				}
 			}
-			return substr($set, 0, -2); 
+			return substr($set, 0, -2);
 		}
 			*/
 

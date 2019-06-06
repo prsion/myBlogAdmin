@@ -6,12 +6,12 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="style.css">
 
-	<title>My blog </title>
+	<title>My blog</title>
 </head>
 <body>
 
 
-<a href="Admin/auth.php">Admin</a>
+<a href="Admin/auth.php">Admin </a>
 
 
 <?php
@@ -27,12 +27,11 @@ $dbh= new Dbh;
 			<div class="left">
 
 						<?php
-							echo '<pre>';
-								$sql='SELECT * FROM articles';
-								$stmt=$dbh->query($sql);
-								foreach ($stmt as $key=>$val)
-								echo $val['publicationDate']."<br><br><br>";
-								echo '</pre>';
+            $sql='SELECT PUBLICATIONDATE FROM articles';
+            $stmt=$dbh->queryCol($sql);
+            foreach ($stmt as $key){
+              echo $key .'<br>'; echo '<br><br>';
+            }
 						?>
 
 			</div>
@@ -46,7 +45,7 @@ $dbh= new Dbh;
 							$stmt=$dbh->query($sql);
 							foreach ($stmt as $key=>$val){
 							echo $val['title'].'<br>';
-							echo"<a href='sum.php/?id=".($val['id'])."'".">".($val['summary'])."<br><br><br>"."</a>";
+							echo"<a href='sum.php/?id=".($val['id'])."'".">".($val['summary'])."<br><br>"."</a>";
 							
 							}
 						?>
